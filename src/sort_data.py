@@ -24,8 +24,9 @@ def read_data(file_path, range_in, out_len, use_saved):
             mean= np.mean(closed_np)
             std = np.std(closed_np)
             close_max = np.max(closed_np)
-            # closed_np = (closed_np - (close_max-close_min)*0.5)/((close_max-close_min)*0.5)
+            # closed_np = (closed_np -mean)/std
             closed_np = (closed_np  - mean) / std
+
             data_len =len(closed_np)
             for i in range(data_len-range_in-out_len):
                 input.append(closed_np[i:(i+range_in)])
@@ -44,7 +45,7 @@ def read_data(file_path, range_in, out_len, use_saved):
         pk_data = pkl.load(f)
         input =pk_data['in']
         output =pk_data['out']
-    return input, output,np.array(closed_np)
+    return input, output,input[0]
 
 
 def create_sine(length, freq,range_in, out_len,):
